@@ -34,14 +34,28 @@ header h1 {
   padding: 20px;
 }
 
+.linker {
+  text-decoration: none;
+  background-color: #333;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.linker:hover {
+  background-color: #444;
+}
+
 /* Form & Input */
 .form-input {
   width: 100%;
   font-size: 18px;
-  margin-bottom: 20px;
+  margin: 20px 0;
   padding: 10px;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 10px;
   outline: none;
 }
 
