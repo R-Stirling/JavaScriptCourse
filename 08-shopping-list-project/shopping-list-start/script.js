@@ -174,6 +174,9 @@ const clearItems = (e) => {
     }
     // Clear from localStorage
     localStorage.removeItem('items');
+  } else {
+    const itemInEdit = itemList.querySelector('.edit-mode');
+    itemInEdit.classList.remove('edit-mode');
   }
 
   resetUI();
