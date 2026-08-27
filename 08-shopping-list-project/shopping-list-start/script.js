@@ -4,37 +4,40 @@ const itemList = document.getElementById('item-list');
 const clearButton = document.getElementById('clear');
 const filter = document.querySelector('.filter');
 const filterText = document.getElementById('filter');
+
 // Adding a style via JS to apply hidden to elements
 const style = document.createElement('style');
 style.textContent = `.hidden {
   display: none;}`;
 document.head.appendChild(style);
 
-// Reset filter text on page load/reload
-filterText.value = '';
+function displayItems() {
+  const itemsFromStorage = getItemsFromStorage();
+  itemsFromStorage.forEach((item) => {
+    addItemToDOM(item);
+    showHideFilterClear2();
+  });
+}
 
-const addItem = (e) => {
+const onAddItemSubmit = (e) => {
   e.preventDefault();
 
   const newItem = itemInput.value;
 
   // Validate input
-  if (itemInput.value == '') {
+  if (newItem == '') {
     alert('Please add an item');
     return;
   }
 
-  //   Create list item
-  const li = document.createElement('li');
-  li.appendChild(document.createTextNode(newItem));
-  const button = createButton('remove-item btn-link text-red');
-  li.appendChild(button);
-
-  //   Add to DOM
-  itemList.appendChild(li);
+  // Create item DOM element
+  addItemToDOM(newItem);
+  // Add item to local storage
+  addItemToStorage(newItem);
 
   showHideFilterClear2();
   filterItems();
+
   itemInput.value = '';
 };
 
@@ -54,35 +57,80 @@ const createIcon = (classes) => {
   return icon;
 };
 
-// Delete item
-const deleteItem = (e) => {
-  const deleteButton = e.target.closest('i' || 'button');
-  if (deleteButton) {
-    deleteButton.closest('li').remove();
+// Separate function to add item to DOM
+const addItemToDOM = (item) => {
+  //   Create list item
+  const li = document.createElement('li');
+  li.appendChild(document.createTextNode(item));
+  const button = createButton('remove-item btn-link text-red');
+  li.appendChild(button);
+
+  //   Add to DOM
+  itemList.appendChild(li);
+};
+
+// function to add new item to storage
+const addItemToStorage = (item) => {
+  const itemsFromStorage = getItemsFromStorage();
+
+  // Add new item to array
+  itemsFromStorage.push(item);
+
+  // Convert to JSON string and set to local storage
+  localStorage.setItem('items', JSON.stringify(itemsFromStorage));
+};
+
+const getItemsFromStorage = () => {
+  let itemsFromStorage;
+  // If storage is empty, set to empty array
+  if (localStorage.getItem('items') === null) {
+    itemsFromStorage = [];
+  } else {
+    // if items in storage, parse JSON string of items into array.
+    itemsFromStorage = JSON.parse(localStorage.getItem('items'));
   }
+
+  return itemsFromStorage;
+};
+
+const onClickItem = (e) => {
+  // check against parent element for button class
+  if (e.target.parentElement.classList.contains('remove-item')) {
+    // deleteItem(e.target.parentElement.parentElement);
+    deleteItem(e.target.closest('li'));
+  }
+};
+
+// Delete item
+const deleteItem = (item) => {
+  // Remove from DOM
+  item.remove();
+  // Remove from storage
+  removeItemFromStorage(item.textContent);
   showHideFilterClear2();
 };
 
-// Clear all items
-// const clearItems = (e) => {
-//   itemList.innerHTML = '';
-//   showHideFilterClear();
-// };
+const removeItemFromStorage = (item) => {
+  let itemsFromStorage = getItemsFromStorage();
+
+  // Filter out item to be removed
+  itemsFromStorage = itemsFromStorage.filter((i) => i !== item);
+
+  // Reset to localstorage
+  localStorage.setItem('items', JSON.stringify(itemsFromStorage));
+};
 
 const clearItems = (e) => {
   if (confirm('Are you sure?')) {
     while (itemList.firstChild) {
       itemList.removeChild(itemList.firstChild);
     }
+    // Clear from localStorage
+    localStorage.removeItem('items');
   }
+
   showHideFilterClear2();
 };
-
-// const deleteItem = (e) => {
-//   if (e.target.parentElement.classList.contains('remove-item')) {
-//     e.target.parentElement.parentElement.remove();
-//   }
-// };
 
 // Hide Filter and Clear All when no items
 // Using new style defined and added to DOM
@@ -108,7 +156,7 @@ const showHideFilterClear2 = () => {
   }
 };
 
-// Filter items - removed event object from function so it can be called from addItem() - keeps filter applied when item added.
+// Filter items - removed event object from function so it can be called from onAddItemSubmit() - keeps filter applied when item added.
 const filterItems = () => {
   const text = filterText.value.toLowerCase();
   const items = itemList.querySelectorAll('li');
@@ -122,8 +170,16 @@ const filterItems = () => {
   });
 };
 
-// Event Listeners
-itemForm.addEventListener('submit', addItem);
-itemList.addEventListener('click', deleteItem);
-clearButton.addEventListener('click', clearItems);
-filter.addEventListener('input', filterItems);
+// Initialise app - to not have event listeners in global scope (optional)
+function init() {
+  // Event Listeners
+  itemForm.addEventListener('submit', onAddItemSubmit);
+  itemList.addEventListener('click', onClickItem);
+  clearButton.addEventListener('click', clearItems);
+  filter.addEventListener('input', filterItems);
+  document.addEventListener('DOMContentLoaded', displayItems);
+  showHideFilterClear2();
+  filterText.value = '';
+}
+
+init();
