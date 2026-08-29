@@ -1,13 +1,39 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Promise.all()</title>
+    <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <h1>Promise.all()</h1>
+    <h1>Movie database</h1>
+
+    <div id="movieTable">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col" colspan="2">Films</th>
+            <th scope="col" colspan="2">Actors</th>
+            <th scope="col" colspan="2">Directors</th>
+          </tr>
+          <tr class="sub">
+            <th>Title</th>
+            <th>Year</th>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Name</th>
+            <th>Age</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody">
+          <tr>
+            <td colspan="6">Fetching data..</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
     <script src="./script.js"></script>
   </body>

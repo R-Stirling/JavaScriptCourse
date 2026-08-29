@@ -1,0 +1,123 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background-color: #f4f5f7;
+  color: #1a1a1a;
+  margin: 0;
+  padding: 2rem;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #2c3e50;
+}
+
+#movieTable {
+  max-width: 1000px;
+  margin: 0 auto;
+  overflow-x: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  background-color: #ffffff;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+/* Top header row: Films / Actors / Directors */
+thead tr:first-child th {
+  background-color: #2c3e50;
+  color: #ffffff;
+  padding: 0.9rem 1rem;
+  text-align: center;
+  font-size: 1.05rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+/* Divide the three category groups visually */
+thead th:nth-child(2n + 1) {
+  border-left: 2px solid rgba(255, 255, 255, 0.25);
+  border-right: 2px solid rgba(255, 255, 255, 0.25);
+}
+
+/* Sub-header row: Title / Year / Name / Age etc. */
+thead tr.sub th {
+  background-color: #34495e;
+  color: #e0e0e0;
+  padding: 0.6rem 1rem;
+  text-align: left;
+  font-weight: 500;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+/* Divider lines matching the category groups */
+thead tr.sub th:nth-child(2n + 1) {
+  border-left: 2px solid #2c3e50;
+}
+
+thead tr.sub th:first-child {
+  border-left: none;
+}
+
+/* Body rows */
+tbody td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #e8e8e8;
+  border-right: 1px solid #e8e8e8;
+}
+
+tbody tr:hover {
+  background-color: #f0f4f8;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #fafbfc;
+}
+
+tbody tr:nth-child(even):hover {
+  background-color: #f0f4f8;
+}
+
+/* Vertical dividers between the three data groups in body rows */
+tbody td:nth-child(2n + 1) {
+  border-left: 2px solid #e0e4e8;
+}
+
+tbody td:first-child {
+  border-left: none;/
+}
+
+/* Loading / empty state */
+tbody td[colspan] {
+  text-align: center;
+  padding: 2rem;
+  color: #888;
+  font-style: italic;
+}
+
+/* Responsive: stack gracefully on small screens */
+@media (max-width: 700px) {
+  body {
+    padding: 1rem;
+  }
+
+  table {
+    font-size: 0.8rem;
+  }
+
+  thead tr:first-child th,
+  thead tr.sub th,
+  tbody td {
+    padding: 0.5rem 0.5rem;
+  }
+}
