@@ -1,16 +1,25 @@
+const userDisplay = document.querySelector('#user');
+
 function fetchUser() {
   showSpinner();
   fetch('https://randomuser.me/api')
-    .then((res) => res.json())
+    .then((res) => {
+      if (!res.ok) {
+        throw new Error('Request failed');
+      }
+      return res.json();
+    })
     .then((data) => {
       hideSpinner();
       displayUser(data.results[0]);
+    })
+    .catch((error) => {
+      hideSpinner();
+      userDisplay.innerHTML = `<p class="text-xl text-red-500 text-center mb-5">${error}</p>`;
     });
 }
 
 function displayUser(user) {
-  const userDisplay = document.querySelector('#user');
-
   if (user.gender === 'female') {
     document.body.style.backgroundColor = 'rebeccapurple';
   } else {
