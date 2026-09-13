@@ -16,11 +16,11 @@ body {
 }
 
 #ball {
-  animation: roll infinite 3s linear;
+  /* animation: roll infinite 3s linear; */
   color: white;
   width: 25%;
   position: absolute;
-  top: 50%;
+  top: 60%;
   left: 50%;
   transform-origin: 0 0;
   transform: rotate(0) translate3D(-50%, -50%, 0);
@@ -51,6 +51,21 @@ button {
 
 button:hover {
   background: blue;
+}
+
+.speed-display {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.current-speed {
+  padding: 10px 20px;
+  margin: 5px;
+  background: #ffffff;
+  color: #000;
+  /* font-size: 20px; */
+  /* font-weight: bold; */
+  border-radius: 5px;
 }
 
 @keyframes roll {
